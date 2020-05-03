@@ -22,17 +22,17 @@ struct CalcResult {
     result: f64
 }
 
-fn do_operation(op: String, left: f64, right: f64) -> Result<f64, &'static str> {
+fn do_operation(op: String, left: f64, right: f64) -> Result<f64, String> {
     match op.as_str() {
         "+" => Ok(left + right),
         "-" => Ok(left - right),
         "*" => Ok(left * right),
-        "/" => if right == 0.0 { Err("zero division error") } else { Ok(left / right) }
-         _  => Err("unsupported operation")
+        "/" => if right == 0.0 { Err("zero division error".to_string()) } else { Ok(left / right) }
+         _  => Err("unsupported operation".to_string())
     }
 }
 
-fn collapse_tree(container: Container) -> Result<f64, &'static str> {
+fn collapse_tree(container: Container) -> Result<f64, String> {
     let right = match *container.right {
         Node::Float(value) => value,
         Node::Container(subtree) => collapse_tree(subtree)?
